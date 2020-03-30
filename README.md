@@ -66,6 +66,7 @@
    git checkout -- file_name  -> retrieve the file from .git(repository)
 
 # **branches management**
+A. create and merge 
   1. default branch `master`, `HEAD`->`master`->`commit`
   2. new branch `new`, `HEAD`->`new`->`commit`(the same commit of master commit)
   3. new branch development, `master`->old commit point, `new`->new commit point(on-going) 
@@ -85,4 +86,13 @@
      git checkout master;cat file_name -> switch back to master branch and observe the change we have made for new branch
   
   c. git merge new         -> merge the current branch and master branch
-       
+     git branch -d new     -> delete new branch after merge it into master 
+     
+  d. git switch -c new     -> another way of creating and switching to new branch
+
+B. handle conflict
+C. branch management strategy
+D. Bug 
+E. feature 
+F. team work
+G. rebase
