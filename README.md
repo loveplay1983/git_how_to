@@ -91,6 +91,10 @@ A. create and merge
   d. git switch -c new     -> another way of creating and switching to new branch
 
 B. handle conflict
+  1. 
+
+
+
 C. branch management strategy
 D. Bug 
 E. feature 
