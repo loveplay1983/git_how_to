@@ -211,5 +211,102 @@ D. Bug
   ```
 
 E. feature 
+  __it is recommended to create a feature branch when adding new funtionality to the project__
+  __feature branch is similar to bug branch__
+
 F. team work
+  __team work is the core feature of git and github__
+  
+  __check permission and remote status__
+  ```
+  git remote
+  git remote -v  # if not permissible, the command has no effect
+
+  git push origin master # push local master branch to remote 
+  git push origin dev    # push local dev branch to remote
+  ```
+  
+  ###### diff branchs
+  * `master` is the main and stable branch, always sync to the remote origin(always modify your project on other branch not master)
+  * `dev` is the development branch which allow us to modify and test, teammates all work together, sync to the remote is also necessary
+  * `bug` or `feature` branch is the like its literal meaning, `bug` for bug fixing whereas `feature` for new feature test    
+
+  ###### git clone from the remote repository 
+  ```
+  git clone git@xxx.com:x/y.git
+  Clonging into 'xxx...'
+  remote:...
+  remote:...
+  Receiving...
+  Receiving...
+  
+  git branch   # by default, one can only use the master branch right after the git clone command
+  * master
+ 
+  git checkout -b dev origin/dev   # add new branch from the remote origin/dev branch
+  ```
+
+  ###### now you and your teammates have pushed the modification of the similar content at the same time
+  ```
+  $ cat env.txt
+  env
+  
+  $ git add env.txt
+  
+  $ git commit -m "add new env"
+  [dev 7bd91f1] add new env
+   1 file changed, 1 insertion(+)
+   create mode 100644 env.txt
+  
+  $ git push origin dev
+  To github.com:michaelliao/learngit.git
+   ! [rejected]        dev -> dev (non-fast-forward)
+  error: failed to push some refs to 'git@github.com:michaelliao/learngit.git'
+  hint: Updates were rejected because the tip of your current branch is behind
+  hint: its remote counterpart. Integrate the remote changes (e.g.
+  hint: 'git pull ...') before pushing again.
+  hint: See the 'Note about fast-forwards' in 'git push --help' for details. 
+  
+
+  $ git pull
+  There is no tracking information for the current branch.
+  Please specify which branch you want to merge with.
+  See git-pull(1) for details.
+  
+      git pull <remote> <branch>
+  
+  If you wish to set tracking information for this branch you can do so with:
+  
+      git branch --set-upstream-to=origin/<branch> dev
+
+
+  $ git branch --set-upstream-to=origin/dev dev
+  Branch 'dev' set up to track remote branch 'dev' from 'origin'.
+  
+  $ git pull
+  Auto-merging env.txt
+  CONFLICT (add/add): Merge conflict in env.txt
+  Automatic merge failed; fix conflicts and then commit the result.
+
+  $ git commit -m "fix env conflict"
+  [dev 57c53ab] fix env conflict
+  
+  $ git push origin dev
+  Counting objects: 6, done.
+  Delta compression using up to 4 threads.
+  Compressing objects: 100% (4/4), done.
+  Writing objects: 100% (6/6), 621 bytes | 621.00 KiB/s, done.
+  Total 6 (delta 0), reused 0 (delta 0)
+  To github.com:michaelliao/learngit.git
+     7a5e5dd..57c53ab  dev -> dev
+  ```
+  
+  ###### how teamwork does
+  * `git push origin <branch name>`
+  * if failed, then try `git pull` since the remote origin has newer version
+  * if conflicts, then resolve it
+  * after all, `git push origin <branch name>` again
+  * if `git pull` has failed and showing `no tracking information` then `git branch --set-upstream-to <branch name> origin/<branch name>` 
+  
 G. rebase
+  
