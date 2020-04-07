@@ -309,4 +309,5 @@ F. team work
   * if `git pull` has failed and showing `no tracking information` then `git branch --set-upstream-to <branch name> origin/<branch name>` 
   
 G. rebase
+  __rebase can modify the git log result which provides better readability__
   
