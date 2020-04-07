@@ -91,12 +91,124 @@ A. create and merge
   d. git switch -c new     -> another way of creating and switching to new branch
 
 B. handle conflict
-  1. 
-
-
+  ```
+  $ git status
+  On branch master
+  Your branch is ahead of 'origin/master' by 2 commits.
+    (use "git push" to publish your local commits)
+  
+  You have unmerged paths.
+    (fix conflicts and run "git commit")
+    (use "git merge --abort" to abort the merge)
+  
+  Unmerged paths:
+    (use "git add <file>..." to mark resolution)
+  
+  	both modified:   readme.txt
+  
+  no changes added to commit (use "git add" and/or "git commit -a")
+  ``` 
+  __check file content__ 
+  __when there is merge conflict, check the file content and make the modifcation decision__
+  ```
+  Git is a distributed version control system.
+  Git is free software distributed under the GPL.
+  Git has a mutable index called stage.
+  Git tracks changes of files.
+  <<<<<<< HEAD
+  Creating a new branch is quick & simple.
+  =======
+  Creating a new branch is quick AND simple.
+  >>>>>>> feature1
+  ```
+  
+  __check the git log after merge master with dev branch, dev branch deletion__
+  ```
+  git log --graph --pretty=oneline --abbrev-commit
+  git branch -d feature1
 
 C. branch management strategy
+  __it is not recommended to use `fast forward` in branch merge which will cause the git log loss of the branch info__
+  ```
+  git merge --no-ff -m "merge with no-ff" dev 
+
+  git log --graph --pretty=oneline --abbrev-commit
+  *   e1e9c68 (HEAD -> master) merge with no-ff
+  |\  
+  | * f52c633 (dev) add merge
+  |/  
+  *   cf810e4 conflict fixed
+  ...
+  ```
+  __with --no-ff argument the git log has its branch info even after the branch deletion__
+
 D. Bug 
+  __git stash save the current working stage while fixing the bug__
+  ```
+  $ git status
+  On branch dev
+  Changes to be committed:
+    (use "git reset HEAD <file>..." to unstage)
+  
+  	new file:   hello.py
+  
+  Changes not staged for commit:
+    (use "git add <file>..." to update what will be committed)
+    (use "git checkout -- <file>..." to discard changes in working directory)
+  
+  	modified:   readme.txt
+
+  git stash   # save the current working stage
+  ```
+   
+  __check the status then fix the bug__
+  ```
+  $ git checkout master
+  Switched to branch 'master'
+  Your branch is ahead of 'origin/master' by 6 commits.
+    (use "git push" to publish your local commits)
+  
+  $ git checkout -b issue-101
+  Switched to a new branch 'issue-101'
+  
+  $ git add readme.txt 
+  $ git commit -m "fix bug 101"
+  [issue-101 4c805e2] fix bug 101
+  1 file changed, 1 insertion(+), 1 deletion(-)
+  
+  $ git switch master
+  Switched to branch 'master'
+  Your branch is ahead of 'origin/master' by 6 commits.
+    (use "git push" to publish your local commits)
+  
+  $ git merge --no-ff -m "merged bug fix 101" issue-101
+  Merge made by the 'recursive' strategy.
+   readme.txt | 2 +-
+   1 file changed, 1 insertion(+), 1 deletion(-)
+  ```
+
+  __check the stash list, find and restore the stash data__
+  ```
+  $ git stash list
+  stash@{0}: WIP on dev: f52c633 add merge
+  $ git stash apply stash@{0}
+  git stash apply   - stash data remain
+  git stash drop    - delete the stash data
+  
+
+  git stash pop     - restore and delete at the same time
+  ```
+
+  __dev branch has the same bug as master branch__
+  ```
+  $ git branch
+  * dev
+    master
+  $ git cherry-pick 4c805e2
+  [master 1d4b803] fix bug 101
+   1 file changed, 1 insertion(+), 1 deletion(-)
+  ```
+
 E. feature 
 F. team work
 G. rebase
