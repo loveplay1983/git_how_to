@@ -126,6 +126,7 @@ B. handle conflict
   ```
   git log --graph --pretty=oneline --abbrev-commit
   git branch -d feature1
+  ```
 
 C. branch management strategy
   __it is not recommended to use `fast forward` in branch merge which will cause the git log loss of the branch info__
